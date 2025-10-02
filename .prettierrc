@@ -1,0 +1,9 @@
+{
+  "printWidth": 120,
+  "jsxSingleQuote": true,
+  "singleQuote": true,
+  "arrowParens": "always",
+  "singleAttributePerLine": true,
+  "plugins": ["prettier-plugin-organize-imports"],
+  "organizeImportsSkipDestructiveCodeActions": true
+}
