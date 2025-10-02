@@ -85,7 +85,7 @@ export const TaskList = () => {
               onEdit={handleEdit}
               onComplete={handleComplete}
               onDelete={handleDelete}
-              isDeleting={deleteTaskMutation.isPending && deleteConfirmation.data === task.id}
+              isDeleting={deleteTaskMutation.isPending && deleteTaskMutation.variables === task.id}
               isCompleting={completeTaskMutation.isPending && completeTaskMutation.variables === task.id}
             />
           </Col>
