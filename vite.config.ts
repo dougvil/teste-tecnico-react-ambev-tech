@@ -13,4 +13,20 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          // Code splitting por feature/página
+          if (id.includes('/src/pages/Tasks/')) {
+            if (id.includes('List')) return 'tasks-list';
+            if (id.includes('Edit')) return 'tasks-edit';
+            if (id.includes('New')) return 'tasks-new';
+            return 'tasks-common';
+          }
+        },
+      },
+    },
+    sourcemap: false,
+  },
 });

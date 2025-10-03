@@ -19,7 +19,7 @@ export const TasksLayout = () => {
             justifyContent='space-between'
             mb={3}
           >
-            <Col>
+            <Col size={{ xs: 12, sm: 'auto' }}>
               <Typography variant='h4'>Minhas Tarefas</Typography>
               <Typography
                 variant='body2'
