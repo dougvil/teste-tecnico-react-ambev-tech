@@ -96,7 +96,6 @@ describe('SnackbarAlert', () => {
     const user = userEvent.setup();
     render(<SnackbarAlert {...defaultProps} />);
 
-    // Simula o evento de clickaway
     const backdrop = document.body;
     await user.click(backdrop);
 
