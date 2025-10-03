@@ -6,6 +6,7 @@ export interface FormEditTaskProps {
   task: Task;
   onSuccess?: () => void;
   onCancel?: () => void;
+  onError?: () => void;
 }
 
 export type FormEditTaskData = UpdateTaskInput;

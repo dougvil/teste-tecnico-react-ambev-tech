@@ -12,9 +12,9 @@ export function useCreateTaskMutation(
   return useMutation({
     ...restOptions,
     mutationFn: createTask,
-    onSuccess: (data, variables, context, mutation) => {
-      queryClient.invalidateQueries({ queryKey: [taskQueryKeys.taskList] });
-      onSuccess?.(data, variables, context, mutation);
+    onSuccess: async (data, variables, context, mutation) => {
+      await queryClient.invalidateQueries({ queryKey: [taskQueryKeys.taskList] });
+      return onSuccess?.(data, variables, context, mutation);
     },
   });
 }

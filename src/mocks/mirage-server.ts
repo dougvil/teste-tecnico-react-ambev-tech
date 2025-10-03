@@ -1,4 +1,5 @@
 import type { Task } from '@/services/tasks';
+import { mockTasks } from '@/test/mocks/tasks.mock';
 import { createServer, Model, Response } from 'miragejs';
 import type { ModelInstance } from 'miragejs/-types';
 
@@ -12,30 +13,14 @@ export function makeServer({ environment = 'development' } = {}) {
       task: Model,
     },
     seeds(server) {
-      server.create('task', {
-        title: 'Revisar documentação da API',
-        description: 'Atualizar a documentação da API REST com os novos endpoints implementados e exemplos de uso',
-        status: 'PENDING',
-      } as Task);
-
-      server.create('task', {
-        title: 'Implementar testes unitários',
-        description:
-          'Criar testes unitários para os componentes React recém-criados, garantindo cobertura mínima de 80%',
-        status: 'COMPLETED',
-      } as Task);
-
-      server.create('task', {
-        title: 'Corrigir bug no formulário de login',
-        description:
-          'Investigar e corrigir o problema de validação que impede usuários com e-mails longos de fazer login',
-        status: 'PENDING',
-      } as Task);
+      mockTasks.forEach((task) => {
+        server.create('task', task as Task);
+      });
     },
 
     routes() {
       this.namespace = 'api';
-      this.timing = 1000;
+      this.timing = 600;
 
       this.get('/tasks', (schema) => {
         return schema.all('task');

@@ -1,16 +1,63 @@
 import Col from '@/components/Col/Col';
 import ConfirmationDialog, { useConfirmationDialog } from '@/components/ConfirmationDialog';
 import Row from '@/components/Row/Row';
+import { SnackbarAlert } from '@/components/Snackbar/SnackbarAlert';
+import { useSnackbarAlert } from '@/components/Snackbar/SnackbarAlert.hook';
 import { useCompleteTaskMutation, useDeleteTaskMutation, useTaskListQuery } from '@/hooks/tasks';
 import { CheckCircleOutline } from '@mui/icons-material';
 import { Box, Stack, Typography } from '@mui/material';
+import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { TaskCard } from './_partials/TaskCard/TaskCard';
 
 export const TaskList = () => {
+  const [snackbarProps, setSnackbarProps] = useSnackbarAlert();
+
   const taskListQuery = useTaskListQuery();
-  const completeTaskMutation = useCompleteTaskMutation();
-  const deleteTaskMutation = useDeleteTaskMutation();
+  useEffect(() => {
+    if (taskListQuery.isError) {
+      setSnackbarProps({
+        open: true,
+        message: 'Erro ao carregar tarefas. Por favor, tente novamente mais tarde.',
+        severity: 'error',
+      });
+    }
+  }, [taskListQuery.isError]);
+
+  const completeTaskMutation = useCompleteTaskMutation({
+    onSuccess: () => {
+      setSnackbarProps({
+        open: true,
+        message: 'Tarefa concluída com sucesso!',
+        severity: 'success',
+      });
+    },
+    onError: () => {
+      setSnackbarProps({
+        open: true,
+        message: 'Erro ao atualizar tarefa. Por favor, tente novamente mais tarde.',
+        severity: 'error',
+      });
+    },
+  });
+
+  const deleteTaskMutation = useDeleteTaskMutation({
+    onSuccess: () => {
+      setSnackbarProps({
+        open: true,
+        message: 'Tarefa excluída com sucesso!',
+        severity: 'success',
+      });
+    },
+    onError: () => {
+      setSnackbarProps({
+        open: true,
+        message: 'Erro ao excluir tarefa. Por favor, tente novamente mais tarde.',
+        severity: 'error',
+      });
+    },
+  });
+
   const navigate = useNavigate();
 
   const deleteConfirmation = useConfirmationDialog({
@@ -101,6 +148,7 @@ export const TaskList = () => {
         cancelText='Cancelar'
         variant='error'
       />
+      <SnackbarAlert {...snackbarProps} />
       <Outlet />
     </Row>
   );

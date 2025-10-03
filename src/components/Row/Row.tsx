@@ -5,7 +5,7 @@ interface RowProps extends Omit<GridProps, 'container'> {
   children: React.ReactNode;
 }
 
-const Row = ({ children, ...props }: RowProps) => {
+const Row = ({ children, ...props }: Omit<RowProps, 'container'>) => {
   return (
     <Grid
       container

@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 import type { FormCreateTaskSchema } from './FormCreateTask.types';
 import { formCreateTaskSchema } from './FormCreateTask.validations';
 
-export function useFormCreateTask({ onSuccess }: { onSuccess?: () => void }) {
-  const createTaskMutation = useCreateTaskMutation({ onSuccess });
+export function useFormCreateTask({ onSuccess, onError }: { onSuccess?: () => void; onError?: () => void }) {
+  const createTaskMutation = useCreateTaskMutation({ onSuccess, onError });
 
   const form = useForm<FormCreateTaskSchema>({
     resolver: zodResolver(formCreateTaskSchema),
@@ -15,8 +15,8 @@ export function useFormCreateTask({ onSuccess }: { onSuccess?: () => void }) {
     },
   });
 
-  const handleSubmit = form.handleSubmit(async (data) => {
-    await createTaskMutation.mutateAsync({
+  const handleSubmit = form.handleSubmit((data) => {
+    createTaskMutation.mutate({
       title: data.title,
       description: data.description,
       status: 'PENDING',

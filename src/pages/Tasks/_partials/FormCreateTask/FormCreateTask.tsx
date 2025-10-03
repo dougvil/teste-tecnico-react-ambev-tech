@@ -5,8 +5,8 @@ import { Controller } from 'react-hook-form';
 import { useFormCreateTask } from './FormCreateTask.hooks';
 import type { FormCreateTaskProps } from './FormCreateTask.types';
 
-export const FormCreateTask = ({ onSuccess, onCancel }: FormCreateTaskProps) => {
-  const { form, handleSubmit, isSubmitting } = useFormCreateTask({ onSuccess });
+export const FormCreateTask = ({ onSuccess, onCancel, onError }: FormCreateTaskProps) => {
+  const { form, handleSubmit, isSubmitting } = useFormCreateTask({ onSuccess, onError });
 
   const {
     control,

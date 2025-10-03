@@ -5,8 +5,8 @@ import { Controller } from 'react-hook-form';
 import { useFormEditTask } from './FormEditTask.hooks';
 import type { FormEditTaskProps } from './FormEditTask.types';
 
-export const FormEditTask = ({ task, onSuccess, onCancel }: FormEditTaskProps) => {
-  const { form, handleSubmit, isSubmitting } = useFormEditTask({ task, onSuccess });
+export const FormEditTask = ({ task, onSuccess, onCancel, onError }: FormEditTaskProps) => {
+  const { form, handleSubmit, isSubmitting } = useFormEditTask({ task, onSuccess, onError });
 
   const {
     control,

@@ -5,6 +5,7 @@ import type { formCreateTaskSchema } from './FormCreateTask.validations';
 export interface FormCreateTaskProps {
   onSuccess?: () => void;
   onCancel?: () => void;
+  onError?: () => void;
 }
 
 export type FormCreateTaskData = CreateTaskInput;

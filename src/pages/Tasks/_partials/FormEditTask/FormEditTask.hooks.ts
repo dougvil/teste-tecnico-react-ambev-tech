@@ -4,8 +4,12 @@ import { useForm } from 'react-hook-form';
 import type { FormEditTaskProps, FormEditTaskSchema } from './FormEditTask.types';
 import { formEditTaskSchema } from './FormEditTask.validations';
 
-export function useFormEditTask({ task, onSuccess }: Pick<FormEditTaskProps, 'task' | 'onSuccess'>) {
-  const updateTaskMutation = useUpdateTaskMutation();
+export function useFormEditTask({
+  task,
+  onSuccess,
+  onError,
+}: Pick<FormEditTaskProps, 'task' | 'onSuccess' | 'onError'>) {
+  const updateTaskMutation = useUpdateTaskMutation({ onSuccess, onError });
 
   const form = useForm<FormEditTaskSchema>({
     resolver: zodResolver(formEditTaskSchema),
@@ -16,8 +20,8 @@ export function useFormEditTask({ task, onSuccess }: Pick<FormEditTaskProps, 'ta
     },
   });
 
-  const handleSubmit = form.handleSubmit(async (data) => {
-    await updateTaskMutation.mutateAsync({
+  const handleSubmit = form.handleSubmit((data) => {
+    updateTaskMutation.mutate({
       id: task.id,
       data: {
         title: data.title,
@@ -26,9 +30,6 @@ export function useFormEditTask({ task, onSuccess }: Pick<FormEditTaskProps, 'ta
       },
     });
 
-    if (onSuccess) {
-      onSuccess();
-    }
     form.reset();
   });
 
