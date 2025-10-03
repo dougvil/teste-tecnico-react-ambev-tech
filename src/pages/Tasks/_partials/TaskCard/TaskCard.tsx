@@ -29,7 +29,7 @@ export const TaskCard = ({ task, onEdit, onComplete, onDelete, isDeleting, isCom
             spacing={1}
           >
             <Typography
-              variant='h6'
+              variant='body1'
               sx={titleStyles}
             >
               {task.title}
