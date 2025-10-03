@@ -4,7 +4,7 @@ import { render, screen, waitFor } from '@/test/test-utils';
 import userEvent from '@testing-library/user-event';
 import { Response, type Server } from 'miragejs';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { TaskList } from './List';
+import { TaskListPage } from './List';
 
 describe('TaskList - Integration Tests', () => {
   let server: Server;
@@ -22,7 +22,7 @@ describe('TaskList - Integration Tests', () => {
 
   describe('Ref. Use Case 001 - List tasks flow', () => {
     it('should load and display the complete task information from the server', async () => {
-      render(<TaskList />);
+      render(<TaskListPage />);
 
       await waitFor(() => {
         expect(screen.getByText('Revisar documentação da API')).toBeInTheDocument();
@@ -35,7 +35,7 @@ describe('TaskList - Integration Tests', () => {
     });
 
     it('should display the correct status for each task', async () => {
-      render(<TaskList />);
+      render(<TaskListPage />);
 
       await waitFor(() => {
         expect(screen.getByText('Revisar documentação da API')).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe('TaskList - Integration Tests', () => {
 
     it('should display a message when there are no tasks', async () => {
       server.db.emptyData();
-      render(<TaskList />);
+      render(<TaskListPage />);
 
       await waitFor(() => {
         expect(screen.getByText('Nenhuma tarefa por aqui!')).toBeInTheDocument();
@@ -66,7 +66,7 @@ describe('TaskList - Integration Tests', () => {
       // Simulate delay to capture loading state
       server.timing = 500;
 
-      render(<TaskList />);
+      render(<TaskListPage />);
 
       await waitFor(() => {
         expect(screen.getByText('Revisar documentação da API')).toBeInTheDocument();
@@ -93,7 +93,7 @@ describe('TaskList - Integration Tests', () => {
   describe('Ref. Use Case 005 - Delete task flow', () => {
     it('should delete task when confirming dialog box', async () => {
       const user = userEvent.setup();
-      render(<TaskList />);
+      render(<TaskListPage />);
 
       await waitFor(() => {
         expect(screen.getByText('Revisar documentação da API')).toBeInTheDocument();
@@ -126,7 +126,7 @@ describe('TaskList - Integration Tests', () => {
 
     it('should not delete task when canceling dialog', async () => {
       const user = userEvent.setup();
-      render(<TaskList />);
+      render(<TaskListPage />);
 
       await waitFor(() => {
         expect(screen.getByText('Revisar documentação da API')).toBeInTheDocument();
@@ -157,7 +157,7 @@ describe('TaskList - Integration Tests', () => {
         return new Response(500, {}, { error: 'Erro ao buscar tarefas' });
       });
 
-      render(<TaskList />);
+      render(<TaskListPage />);
 
       await waitFor(() => {
         expect(
@@ -172,7 +172,7 @@ describe('TaskList - Integration Tests', () => {
       });
 
       const user = userEvent.setup();
-      render(<TaskList />);
+      render(<TaskListPage />);
 
       await waitFor(() => {
         expect(screen.getByText('Revisar documentação da API')).toBeInTheDocument();
@@ -194,7 +194,7 @@ describe('TaskList - Integration Tests', () => {
       });
 
       const user = userEvent.setup();
-      render(<TaskList />);
+      render(<TaskListPage />);
 
       await waitFor(() => {
         expect(screen.getByText('Revisar documentação da API')).toBeInTheDocument();

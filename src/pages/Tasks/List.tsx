@@ -4,13 +4,13 @@ import Row from '@/components/Row/Row';
 import { SnackbarAlert } from '@/components/Snackbar/SnackbarAlert';
 import { useSnackbarAlert } from '@/components/Snackbar/SnackbarAlert.hook';
 import { useCompleteTaskMutation, useDeleteTaskMutation, useTaskListQuery } from '@/hooks/tasks';
-import { CheckCircleOutline } from '@mui/icons-material';
-import { Box, Stack, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { TaskCard } from './_partials/TaskCard/TaskCard';
+import { EmptyTaskList } from './_partials/EmptyTaskList';
+import { TaskList } from './_partials/TaskList';
+import { TaskListSkeleton } from './_partials/TaskList/TaskList.skeleton';
 
-export const TaskList = () => {
+export const TaskListPage = () => {
   const [snackbarProps, setSnackbarProps] = useSnackbarAlert();
 
   const taskListQuery = useTaskListQuery();
@@ -80,63 +80,23 @@ export const TaskList = () => {
 
   return (
     <Row>
-      {taskListQuery.data && taskListQuery.data.length === 0 ? (
+      {taskListQuery.isLoading ? (
         <Col size={{ xs: 12 }}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              py: 8,
-              px: 3,
-              textAlign: 'center',
-            }}
-          >
-            <Stack
-              spacing={3}
-              alignItems='center'
-            >
-              <CheckCircleOutline
-                sx={{
-                  fontSize: '5rem',
-                  color: 'success.main',
-                  opacity: 0.3,
-                }}
-              />
-              <Typography
-                variant='h5'
-                fontWeight={600}
-                color='text.primary'
-              >
-                Nenhuma tarefa por aqui!
-              </Typography>
-              <Typography
-                variant='body1'
-                color='text.secondary'
-                sx={{ maxWidth: '400px' }}
-              >
-                Parabéns! Todas as suas tarefas foram concluídas.
-              </Typography>
-            </Stack>
-          </Box>
+          <TaskListSkeleton />
+        </Col>
+      ) : taskListQuery.data && taskListQuery.data?.length === 0 ? (
+        <Col size={{ xs: 12 }}>
+          <EmptyTaskList />
         </Col>
       ) : (
-        taskListQuery.data?.map((task) => (
-          <Col
-            key={task.id}
-            size={{ xs: 12, sm: 6, md: 4 }}
-          >
-            <TaskCard
-              task={task}
-              onEdit={handleEdit}
-              onComplete={handleComplete}
-              onDelete={handleDelete}
-              isDeleting={deleteTaskMutation.isPending && deleteTaskMutation.variables === task.id}
-              isCompleting={completeTaskMutation.isPending && completeTaskMutation.variables === task.id}
-            />
-          </Col>
-        ))
+        <TaskList
+          tasks={taskListQuery.data || []}
+          onEdit={handleEdit}
+          onComplete={handleComplete}
+          onDelete={handleDelete}
+          deletingTaskId={deleteTaskMutation.isPending ? deleteTaskMutation.variables : undefined}
+          completingTaskId={completeTaskMutation.isPending ? completeTaskMutation.variables : undefined}
+        />
       )}
       <ConfirmationDialog
         open={deleteConfirmation.isOpen}
