@@ -7,6 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/teste-tecnico-react-ambev-tech/',
   plugins: [react()],
   resolve: {
     alias: {

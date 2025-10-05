@@ -76,6 +76,12 @@ Para visualizar a build de produção localmente:
 npm run preview
 ```
 
+### Deploy no GitHub Pages
+
+O projeto está configurado para deploy automático no GitHub Pages. Toda vez que houver um push na branch `main`, uma GitHub Action será executada automaticamente para fazer o build e deploy da aplicação.
+
+A aplicação estará disponível em: https://dougvil.github.io/teste-tecnico-react-ambev-tech/
+
 ## 🧪 Testes
 
 ### Executar todos os testes

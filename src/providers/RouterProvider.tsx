@@ -95,7 +95,9 @@ const router = createBrowserRouter([
       },
     ],
   },
-]);
+], {
+  basename: import.meta.env.BASE_URL,
+});
 
 export const RouterProvider = () => {
   return <BrowserRouterProvider router={router} />;
